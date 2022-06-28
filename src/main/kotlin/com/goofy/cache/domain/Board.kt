@@ -1,4 +1,4 @@
-package com.goofy.cache.board
+package com.goofy.cache.domain
 
 import com.goofy.cache.common.BaseEntity
 import javax.persistence.Entity

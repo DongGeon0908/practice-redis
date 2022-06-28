@@ -15,7 +15,7 @@ class CacheApplication(
     private val logger = KotlinLogging.logger {}
 
     override fun onApplicationEvent(event: ApplicationEvent) {
-        logger.info("Spring Server Profiles Status : {}", environment.activeProfiles.contentToString())
+        logger.info("Spring Server Profiles Status : {}", environment.activeProfiles)
     }
 }
 

@@ -27,4 +27,7 @@ class BoardController(
 
     @PostMapping("/evict/{type}")
     fun evict(@PathVariable type: Long) = boardCacheService.evict(type).noContent()
+
+    @PostMapping("/evict-annotation/{type}/")
+    fun evictWithAnnotation(@PathVariable type: Long) = boardService.evictWithAnnotation(type).wrapDataResponse()
 }

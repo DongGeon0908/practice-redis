@@ -3,6 +3,7 @@ package com.goofy.cache.service
 import com.goofy.cache.domain.Board
 import com.goofy.cache.dto.BoardResponse
 import com.goofy.cache.repository.BoardRepository
+import org.springframework.cache.annotation.CacheEvict
 import org.springframework.cache.annotation.Cacheable
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -40,6 +41,15 @@ class BoardService(
     )
     @Transactional(readOnly = true)
     fun get(type: Long) = boardRepository.findAllByType(type).map { BoardResponse(it) }
+
+    @CacheEvict(
+        cacheManager = "cacheManager",
+        value = ["cache::boards"],
+        key = "#type"
+    )
+    @Transactional(readOnly = true)
+    fun evictWithAnnotation(type: Long) = "evict cache::boards::${type}"
+
 
     @Transactional(readOnly = true)
     fun getNoCahce(type: Long) = boardRepository.findAllByType(type).map { BoardResponse(it) }

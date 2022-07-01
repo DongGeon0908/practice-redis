@@ -4,6 +4,7 @@ import com.goofy.cache.domain.Board
 import com.goofy.cache.dto.BoardResponse
 import com.goofy.cache.repository.BoardRepository
 import org.springframework.cache.annotation.CacheEvict
+import org.springframework.cache.annotation.CachePut
 import org.springframework.cache.annotation.Cacheable
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -53,4 +54,27 @@ class BoardService(
 
     @Transactional(readOnly = true)
     fun getNoCahce(type: Long) = boardRepository.findAllByType(type).map { BoardResponse(it) }
+
+    /**
+     * condition의 상태에 따라 캐시 처리 진행
+     **/
+    @Cacheable(
+        cacheManager = "cacheManager",
+        condition = "#type == 1L",
+        value = ["cache::boards"],
+        key = "#type"
+    )
+    @Transactional(readOnly = true)
+    fun getWithCondition(type: Long) = boardRepository.findAllByType(type).map { BoardResponse(it) }
+
+    /**
+     * 캐시 갱신
+     **/
+    @CachePut(
+        cacheManager = "cacheManager",
+        value = ["cache::boards"],
+        key = "#type"
+    )
+    @Transactional(readOnly = true)
+    fun getWittPut(type: Long) = boardRepository.findAllByType(type).map { BoardResponse(it) }
 }

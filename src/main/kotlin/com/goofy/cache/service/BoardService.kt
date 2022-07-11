@@ -35,6 +35,10 @@ class BoardService(
         boardRepository.saveAll(boards2)
     }
 
+    /**
+     * 해당 데이터가 redis에 등록되게 되면 아래와 같이 key 값이 생성됨
+     * key : cache::boards::1
+     **/
     @Cacheable(
         cacheManager = "cacheManager",
         value = ["cache::boards"],

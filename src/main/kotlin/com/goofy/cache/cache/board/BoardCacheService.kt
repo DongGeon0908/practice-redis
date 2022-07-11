@@ -17,4 +17,6 @@ class BoardCacheService(
     fun evict(type: Long) {
         redis.delete(BoardCacheKey.BOARD_SELECT_CACHE_KEY.key(type))
     }
+
+    fun get(type: Long) = redis.opsForValue().get(BoardCacheKey.BOARD_SELECT_CACHE_KEY.key(type))
 }

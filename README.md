@@ -19,4 +19,7 @@
 - Redis Config
 - Cache Config
 - 어노테이션 기반 캐시 처리
+  - Cacheable[] cacheable() default {};
+  - CachePut[] put() default {};
+  - CacheEvict[] evict() default {};
 - Redis 기반 캐시처리

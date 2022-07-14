@@ -55,7 +55,6 @@ class BoardService(
     @Transactional(readOnly = true)
     fun evictWithAnnotation(type: Long) = "evict cache::boards::${type}"
 
-
     @Transactional(readOnly = true)
     fun getNoCahce(type: Long) = boardRepository.findAllByType(type).map { BoardResponse(it) }
 

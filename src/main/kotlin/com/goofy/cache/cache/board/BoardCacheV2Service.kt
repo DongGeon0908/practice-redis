@@ -1,5 +1,6 @@
 package com.goofy.cache.cache.board
 
+import org.springframework.data.redis.connection.DataType
 import org.springframework.data.redis.core.RedisTemplate
 import org.springframework.stereotype.Service
 import java.time.LocalDate
@@ -53,4 +54,21 @@ class BoardCacheV2Service(
     fun getExpired(type: Long): Long {
         return redis.getExpire(BoardCacheV2Key.CACHE_EXAMPLE.key(type))
     }
+
+    /**
+     * 데이터 삽입
+     **/
+    fun set() {
+        redis.opsForValue().set("key::redis::ex:string", "ex-redis-string")
+    }
+
+    /**
+     * type 확인하기
+     **/
+    fun checkType(): String {
+        val type: DataType = redis.type("key::redis::ex:string")
+
+        return type.code()
+    }
 }
+

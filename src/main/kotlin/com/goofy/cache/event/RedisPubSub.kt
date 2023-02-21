@@ -25,6 +25,7 @@ class RedisSubscriber(
         val channel = redisTemplate.getChannel(message)
         val content = redisTemplate.getMessage(message)
 
+        /** 추후 subscribe 로직 구현 */
         println("channel : $channel")
         println("conent : $content")
     }
@@ -36,21 +37,13 @@ data class EventModel(
 )
 
 fun RedisTemplate<String, Any>.getChannel(message: Message): String {
-    val channel = this.stringSerializer.deserialize(message.channel)
-
-    if (channel.isNullOrEmpty()) {
-        throw RedisPubSubException("channel is null or empty")
-    }
-
-    return channel
+    return this.stringSerializer.deserialize(message.channel)
+        ?: throw RedisPubSubException("channel is null or empty")
 }
 
 fun RedisTemplate<String, Any>.getMessage(message: Message): EventModel {
     val messageBody = this.stringSerializer.deserialize(message.body)
-
-    if (messageBody.isNullOrEmpty()) {
-        throw RedisPubSubException("message is null or empty")
-    }
+        ?: throw RedisPubSubException("message is null or empty")
 
     return mapper.readValue(messageBody)
 }

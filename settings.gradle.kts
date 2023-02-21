@@ -1,1 +1,1 @@
-rootProject.name = "cache"
+rootProject.name = "pratice-redis"

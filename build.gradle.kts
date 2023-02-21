@@ -23,16 +23,27 @@ repositories {
 }
 
 dependencies {
+    /** spring starter */
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
     implementation("org.springframework.boot:spring-boot-starter-data-redis")
     implementation("org.springframework.boot:spring-boot-starter-web")
+
+    /** kotlin */
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
+
+    /** logger */
     implementation("io.github.microutils:kotlin-logging-jvm:2.1.20")
-    developmentOnly("org.springframework.boot:spring-boot-devtools")
+
+    /** db */
     runtimeOnly("mysql:mysql-connector-java")
+
+    /** etc */
     annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
+    developmentOnly("org.springframework.boot:spring-boot-devtools")
+
+    /** test */
     testImplementation("org.springframework.boot:spring-boot-starter-test")
 }
 

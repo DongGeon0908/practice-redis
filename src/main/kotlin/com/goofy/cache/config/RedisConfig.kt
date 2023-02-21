@@ -18,6 +18,7 @@ import org.springframework.data.redis.cache.RedisCacheManager
 import org.springframework.data.redis.connection.RedisConnectionFactory
 import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory
 import org.springframework.data.redis.core.RedisTemplate
+import org.springframework.data.redis.listener.ChannelTopic
 import org.springframework.data.redis.repository.configuration.EnableRedisRepositories
 import org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer
 import org.springframework.data.redis.serializer.RedisSerializationContext
@@ -91,5 +92,14 @@ class RedisConfig(
         HOUR(Duration.ofHours(1L)),
         MONTH(Duration.ofDays(30L)),
         ;
+    }
+
+    companion object {
+        private const val TEST_CHANNEL = "test-channel"
+    }
+
+    @Bean
+    fun channelTopic(): ChannelTopic {
+        return ChannelTopic(TEST_CHANNEL)
     }
 }

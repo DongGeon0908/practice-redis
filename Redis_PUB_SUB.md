@@ -147,3 +147,4 @@ class RedisPubSubException(
 ### Reference
 
 - [Redis Pub/Sub Docs](https://redis.io/docs/manual/pubsub/)
+- [REPO](https://github.com/DongGeon0908/pratice-redis)

@@ -13,6 +13,11 @@ class RedisPublisher(
     private val redisTemplate: RedisTemplate<String, Any>
 ) {
     /** 특정 채널에 Message 발행 */
+    fun publish(channel: String, message: Any) {
+        redisTemplate.convertAndSend(channel, message)
+    }
+
+    /** 특정 채널에 Message 발행 */
     fun publish(channel: ChannelTopic, message: Any) {
         redisTemplate.convertAndSend(channel.topic, message)
     }
@@ -27,9 +32,9 @@ class RedisSubscriber(
         val channel = redisTemplate.getChannel(message)
         val content = redisTemplate.getMessage(message)
 
-        /** 추후 subscribe 로직 구현 */
-        println("channel : $channel")
-        println("conent : $content")
+        run {
+            // TODO : 별도의 로직을 수행한다.
+        }
     }
 }
 

@@ -2,13 +2,10 @@
 
 > Pub-Sub 흔히 채팅 혹은 알림을 보낼 때 사용하는 아키텍쳐이다. Redis도 Pub-Sub을 지원한다. 생각보다 간단한 구조로 PUB/SUB을 지원하기 때문에 충분히 이용할 가치가 있다.
 
-
-
 ### PUB/SUB이란?
 
-pub/sub은 기본적으로 채널, 발행, 구독 3가지 키워드로 운영된다. 발행자는 특정 채널에 이벤트를 발행한다. 그러면, 해당 채널을 구독하고 있는 수신자가 해당 이벤트를 받는다. 메시지큐 시스템의 일환으로 발행자는 이벤트를 발행한 이후에 별도의 액션을 취할 필요 없이 다른 작업을 수행할 수 있다는 장점이 있다. (비동기적으로 서비스를 운영하기에 편리) 대부분의 메세지큐 서비스들이 위와 같은 PUB/SUB을 지원한다.
-
-
+pub/sub은 기본적으로 채널, 발행, 구독 3가지 키워드로 운영된다. 발행자는 특정 채널에 이벤트를 발행한다. 그러면, 해당 채널을 구독하고 있는 수신자가 해당 이벤트를 받는다. 메시지큐 시스템의 일환으로
+발행자는 이벤트를 발행한 이후에 별도의 액션을 취할 필요 없이 다른 작업을 수행할 수 있다는 장점이 있다. (비동기적으로 서비스를 운영하기에 편리) 대부분의 메세지큐 서비스들이 위와 같은 PUB/SUB을 지원한다.
 
 ### Redis로 실습하기
 
@@ -20,8 +17,6 @@ pub/sub은 기본적으로 채널, 발행, 구독 3가지 키워드로 운영된
 
 ex > PUBLISH goofy-chat hello
 ```
-
-
 
 **이벤트 구독하기**
 
@@ -42,8 +37,6 @@ ex > PSUBSCRIBE goofy* (goofy로 시작하는 모든 채널 구독)
 ex > SSUBSCRIBE goofy-chat (하나의 채널 구독)
 ex > SSUBSCRIBE goofy-chat goofy-chat1 (여러 채널 구독) 
 ```
-
-
 
 **구독 취소하기**
 
@@ -67,8 +60,6 @@ ex > SUNSUBSCRIBE
 ex > PUNSUBSCRIBE goofy* (goofy로 시작하는 모든 채널 구독)
 ```
 
-
-
 **서버 상태 확인**
 
 1. 연결이 아직 살아있는지 테스트합니다.
@@ -85,8 +76,6 @@ ex > PUNSUBSCRIBE goofy* (goofy로 시작하는 모든 채널 구독)
 > PING GOOFy (반환값으로 GOOFY)
 ```
 
-
-
 **간단한 Spring-Redis-PUB/SUB MODEL**
 
 ```kotlin
@@ -94,6 +83,11 @@ ex > PUNSUBSCRIBE goofy* (goofy로 시작하는 모든 채널 구독)
 class RedisPublisher(
     private val redisTemplate: RedisTemplate<String, Any>
 ) {
+    /** 특정 채널에 Message 발행 */
+    fun publish(channel: String, message: Any) {
+        redisTemplate.convertAndSend(channel, message)
+    }
+
     /** 특정 채널에 Message 발행 */
     fun publish(channel: ChannelTopic, message: Any) {
         redisTemplate.convertAndSend(channel.topic, message)
@@ -109,9 +103,9 @@ class RedisSubscriber(
         val channel = redisTemplate.getChannel(message)
         val content = redisTemplate.getMessage(message)
 
-        /** 추후 subscribe 로직 구현 */
-        println("channel : $channel")
-        println("conent : $content")
+        run {
+            // TODO : 별도의 로직을 수행한다.
+        }
     }
 }
 
@@ -139,10 +133,6 @@ class RedisPubSubException(
     override val message: String
 ) : RuntimeException(message)
 ```
-
-
-
-
 
 ### Reference
 

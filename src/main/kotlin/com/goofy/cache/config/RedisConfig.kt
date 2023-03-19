@@ -49,6 +49,17 @@ class RedisConfig(
     }
 
     @Bean
+    fun simpleStringRedisTemplate(): RedisTemplate<String, String> {
+        return RedisTemplate<String, String>().apply {
+            this.setConnectionFactory(redisConnectionFactory())
+            this.keySerializer = StringRedisSerializer()
+            this.valueSerializer = GenericJackson2JsonRedisSerializer()
+            this.hashKeySerializer = StringRedisSerializer()
+            this.hashValueSerializer = GenericJackson2JsonRedisSerializer()
+        }
+    }
+
+    @Bean
     override fun cacheManager(): CacheManager {
         val builder = RedisCacheManager.RedisCacheManagerBuilder.fromConnectionFactory(redisConnectionFactory())
 

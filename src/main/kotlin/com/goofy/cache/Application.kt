@@ -9,7 +9,7 @@ import org.springframework.core.env.Environment
 import java.util.*
 
 @SpringBootApplication
-class PraticeRedisApplication(
+class Application(
     private val environment: Environment
 ) : ApplicationListener<ApplicationEvent> {
     private val logger = KotlinLogging.logger {}
@@ -21,7 +21,7 @@ class PraticeRedisApplication(
 
 fun main(args: Array<String>) {
     timeZone()
-    runApplication<PraticeRedisApplication>(*args)
+    runApplication<Application>(*args)
 }
 
 private fun timeZone() {

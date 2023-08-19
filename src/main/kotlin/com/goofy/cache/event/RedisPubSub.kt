@@ -41,7 +41,7 @@ class RedisSubscriber(
 /** 발행 이벤트 메세지 */
 data class EventModel(
     val id: Long,
-    val description: String
+    val message: String
 )
 
 /** 채널 정보 조회 */
